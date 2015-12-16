@@ -32,9 +32,3 @@ func main() {
 
 	router.Run(":" + Port)
 }
-
-//Refactoring
-// go install && go-gin-mgo*
-// Move mongodb initialization to middleware*
-// Move Thing to models*
-// Move route method to handlers*
