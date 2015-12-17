@@ -27,8 +27,11 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{ "message": http.StatusOK })
 	})
 
+	router.GET("/stuff/:_id", things.GetOne)
 	router.GET("/stuff", things.List)
-	router.POST("/addStuff", things.Create)
+	router.POST("/stuff", things.Create)
+	router.DELETE("/stuff/:_id", things.Delete)
+	router.PUT("/stuff/:_id", things.Update)
 
 	router.Run(":" + Port)
 }
