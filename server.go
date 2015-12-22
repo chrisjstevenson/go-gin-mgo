@@ -1,8 +1,6 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/chrisjstevenson/go-gin-mgo/db"
 	"github.com/chrisjstevenson/go-gin-mgo/handlers/things"
 	"github.com/chrisjstevenson/go-gin-mgo/middlewares"
@@ -11,27 +9,28 @@ import (
 
 const (
 	Port = "9002"
+	Prefix = "/api/v1"
 )
 
 func init() {
 	db.Connect()
 }
 
-
 func main() {
 	router := gin.Default()
 
 	router.Use(middlewares.Connect)
-
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{ "message": http.StatusOK })
-	})
-
-	router.GET("/stuff/:_id", things.GetOne)
-	router.GET("/stuff", things.List)
-	router.POST("/stuff", things.Create)
-	router.DELETE("/stuff/:_id", things.Delete)
-	router.PUT("/stuff/:_id", things.Update)
+	router.GET(Prefix + "/things/:_id", things.GetOne)
+	router.GET(Prefix +"/things", things.List)
+	router.POST(Prefix + "/things", things.Create)
+	router.DELETE(Prefix + "/things/:_id", things.Delete)
+	router.PUT(Prefix + "/things/:_id", things.Update)
 
 	router.Run(":" + Port)
 }
+
+// https://github.com/WhiteHouse/api-standards
+// Version number in the URL
+// Allow users to request formats
+// URLs include plural nouns.
+// Formats should be in the form of api/v1/resource/{id}.json

@@ -26,19 +26,19 @@ func List(c *gin.Context) {
 func Create(c *gin.Context) {
 	db := c.MustGet("db").(*mgo.Database)
 
-	var json models.Thing
-	err := c.BindJSON(&json)
+	thing := models.Thing{}
+	err := c.BindJSON(&thing)
 	if err != nil {
 		c.Error(err)
 		return
 	}
 
-	err = db.C(models.CollectionStuff).Insert(json)
+	err = db.C(models.CollectionStuff).Insert(thing)
 	if err != nil {
 		c.Error(err)
 	}
 
-	c.JSON(http.StatusOK, json)
+	c.JSON(http.StatusCreated, thing)
 }
 
 func GetOne(c *gin.Context) {
